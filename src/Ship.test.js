@@ -1,4 +1,4 @@
-const ship = require('./Ship');
+import ship from './Ship';
 
 test('Ship size', () => {
 	expect(ship(2).type).toEqual(2);

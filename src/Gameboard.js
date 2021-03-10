@@ -1,16 +1,13 @@
-import React, { useState } from 'react';
 import Ship from './Ship';
 function Gameboard() {
-	const [ships, setShips] = useState([]);
+	const ships = [];
 	const placeShip = (coor) => {
-		const ship = Ship(coor);
-		setShips((current) => {
-			return [...current, ship];
-		});
+		const newShip = Ship(coor);
+		ships.push(newShip);
+		return 'ship added';
 	};
 	const recieveAttack = (ship, mark) => {
 		ship.hit(mark);
-		setShips([...ships]);
 	};
 	return { placeShip, recieveAttack, ships };
 }
