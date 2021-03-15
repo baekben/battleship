@@ -34,13 +34,15 @@ test('Ship recieves an attack', () => {
 });
 
 test('Board is attacked but ship is not hit', () => {
-	gboard.placeShip(4, [
+	let boardTest = gboard;
+	boardTest.setBoard();
+	boardTest.placeShip(4, [
 		{ pt: { x: 0, y: 0 }, isHit: false },
 		{ pt: { x: 0, y: 1 }, isHit: false },
 		{ pt: { x: 0, y: 2 }, isHit: false },
 		{ pt: { x: 0, y: 3 }, isHit: false },
 	]);
-	gboard.recieveAttack(5, 6);
-	expect(gboard.board[0].atk).toBe(true);
-	expect(gboard.board[0].status).toBe('hit');
+	boardTest.recieveAttack(5, 6);
+	expect(boardTest.board[56].atk).toBe(true);
+	expect(boardTest.board[56].status).toBe('miss');
 });

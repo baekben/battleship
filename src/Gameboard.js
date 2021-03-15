@@ -7,7 +7,7 @@ function Gameboard() {
 			for (let i = 0; i < 10; i++) {
 				for (let j = 0; j < 10; j++) {
 					board.push({
-						pt: { x: j, y: i },
+						pt: { x: i, y: j },
 						type: null,
 						atk: false,
 						status: null,
@@ -29,24 +29,27 @@ function Gameboard() {
 		return 'ship added';
 	};
 	const recieveAttack = (x, y) => {
+		let attack = '';
 		board.forEach((coord) => {
 			if (coord.pt.x === x && coord.pt.y === y) {
 				coord.atk = true;
 				if (coord.type === null) {
-					coord.status = 'miss';
+					attack = coord.status = 'miss';
 					return 'miss';
 				} else {
-					coord.status = 'hit';
+					attack = coord.status = 'hit';
 					ships.forEach((ship) => {
-						ship.hit(x, y);
-						if (ship.isSunk()) {
-							return 'sunk';
+						if (ship.type === coord.type) {
+							ship.hit(x, y);
+							if (ship.isSunk()) {
+								attack = 'sunk';
+							}
 						}
 					});
-					return 'hit';
 				}
 			}
 		});
+		return attack;
 	};
 	return { board, setBoard, placeShip, recieveAttack, ships };
 }
