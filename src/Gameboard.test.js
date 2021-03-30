@@ -34,15 +34,43 @@ test('Ship recieves an attack', () => {
 });
 
 test('Board is attacked but ship is not hit', () => {
-	let boardTest = gboard;
-	boardTest.setBoard();
-	boardTest.placeShip(4, [
+	gboard.setBoard();
+	gboard.placeShip(4, [
 		{ pt: { x: 0, y: 0 }, isHit: false },
 		{ pt: { x: 0, y: 1 }, isHit: false },
 		{ pt: { x: 0, y: 2 }, isHit: false },
 		{ pt: { x: 0, y: 3 }, isHit: false },
 	]);
-	boardTest.recieveAttack(5, 6);
-	expect(boardTest.board[56].atk).toBe(true);
-	expect(boardTest.board[56].status).toBe('miss');
+	gboard.recieveAttack(5, 6);
+	expect(gboard.board[56].atk).toBe(true);
+	expect(gboard.board[56].status).toBe('miss');
+});
+
+test('Notify all ships have sunk', () => {
+	gboard.setBoard();
+	gboard.placeShip(2, [
+		{ pt: { x: 1, y: 1 }, isHit: false },
+		{ pt: { x: 1, y: 2 }, isHit: false },
+	]);
+	gboard.placeShip(3, [
+		{ pt: { x: 3, y: 4 }, isHit: false },
+		{ pt: { x: 4, y: 4 }, isHit: false },
+		{ pt: { x: 5, y: 4 }, isHit: false },
+	]);
+
+	gboard.recieveAttack(1, 1);
+	gboard.recieveAttack(1, 2);
+	gboard.recieveAttack(3, 4);
+	gboard.recieveAttack(4, 4);
+	gboard.recieveAttack(5, 4);
+
+	expect(gboard.board[11].atk).toBe(true);
+	expect(gboard.board[12].atk).toBe(true);
+	expect(gboard.board[34].atk).toBe(true);
+	expect(gboard.board[44].atk).toBe(true);
+	expect(gboard.board[54].atk).toBe(true);
+
+	expect(gboard.ships[4].isSunk()).toBe(true);
+	expect(gboard.board[12].status).toBe('sunk');
+	expect(gboard.board[54].status).toBe('sunk');
 });

@@ -35,14 +35,13 @@ function Gameboard() {
 				coord.atk = true;
 				if (coord.type === null) {
 					attack = coord.status = 'miss';
-					return 'miss';
 				} else {
 					attack = coord.status = 'hit';
 					ships.forEach((ship) => {
 						if (ship.type === coord.type) {
 							ship.hit(x, y);
 							if (ship.isSunk()) {
-								attack = 'sunk';
+								attack = coord.status = 'sunk';
 							}
 						}
 					});
