@@ -1,5 +1,8 @@
+import { pieceLength } from './Pieces';
 function Ship(type, coords) {
-	var lives = Array(type).fill(0);
+	const id = type;
+	const length = pieceLength[type];
+	var lives = Array(length).fill(0);
 	const hit = (x, y) => {
 		coords.map((coord) => {
 			if (coord.pt.x === x && coord.pt.y === y) {
@@ -11,7 +14,7 @@ function Ship(type, coords) {
 	};
 	const isSunk = () => lives.every((live) => live === 1);
 
-	return { type, isSunk, hit, lives, coords };
+	return { id, length, type, isSunk, hit, lives, coords };
 }
 
 export default Ship;

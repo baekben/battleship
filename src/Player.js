@@ -1,4 +1,5 @@
 import Gameboard from './Gameboard';
+import { randCoords } from './Pieces';
 
 class Player {
 	constructor(user) {
@@ -7,15 +8,16 @@ class Player {
 		this.board = new Gameboard();
 	}
 	attack(x, y, board) {
-		let spot = x + y;
-		if (board.oppBoard[spot] === 'null') {
-			board.recieveAttack(x, y);
-		}
+		board.recieveAttack(x, y);
 	}
 	autoAttack(opp) {
-		let x = 'random number';
-		let y = 'random number';
-		this.attack(x, y, opp);
+		const [x, y] = randCoords();
+		const target = opp.board[x + y];
+		if (target === 'miss' || target === 'hit') {
+			this.autoAttack(opp);
+		} else {
+			opp.recieveAttack(x, y);
+		}
 	}
 }
 

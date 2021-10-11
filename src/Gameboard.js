@@ -1,6 +1,8 @@
 import Ship from './Ship';
+import { pieces } from './Pieces';
 function Gameboard() {
 	const ships = [];
+	const allShipsPlaced = () => ships.length === pieces.length;
 	const board = [];
 	const setBoard = () => {
 		if (board.length === 0) {
@@ -50,7 +52,7 @@ function Gameboard() {
 		});
 		return attack;
 	};
-	return { board, setBoard, placeShip, recieveAttack, ships };
+	return { allShipsPlaced, board, setBoard, placeShip, recieveAttack, ships };
 }
 
 export default Gameboard;
