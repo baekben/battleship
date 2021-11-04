@@ -1,24 +1,23 @@
-import './App.css';
+import React from 'react';
+import Game from './Game';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = () => {
+	const clickHandle = () => {
+		console.log('clicked');
+		Game();
+		Game().setGame();
+	};
+
+	return (
+		<div className="App">
+			<header className="App-header">
+				<p>Hello</p>
+				<button id="set" onClick={clickHandle}>
+					Set Board
+				</button>
+			</header>
+		</div>
+	);
+};
 
 export default App;

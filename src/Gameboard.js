@@ -1,25 +1,11 @@
-import { pieces } from './Pieces';
-function Gameboard() {
+import { randCoords, pieces } from './Pieces';
+const Gameboard = () => {
 	let board = Array(10)
-		.fill(null)
-		.map(() => Array(10).fill(null));
+		.fill(0)
+		.map(() => Array(10).fill(0));
 	const getBoard = () => board;
-	// const setBoard = () => {
-	// 	if (board.length === 0) {
-	// 		for (let i = 0; i < 10; i++) {
-	// 			for (let j = 0; j < 10; j++) {
-	// 				board.push({
-	// 					pt: { x: i, y: j },
-	// 					type: null,
-	// 					atk: false,
-	// 					status: null,
-	// 				});
-	// 			}
-	// 		}
-	// 	}
-	// };
-	const ships = [];
-	const allShipsPlaced = () => ships.length === pieces.length;
+	const placedShips = [];
+	const allShipsPlaced = () => placedShips.length === pieces.length;
 
 	const adjustCoords = (y0, x0, i, direction) => {
 		//boat/ship is horizontal
@@ -29,7 +15,7 @@ function Gameboard() {
 			x = x0;
 			y = y0 + i;
 		}
-		return [x, y];
+		return [y, x];
 	};
 
 	const placeShip = (ship, y0, x0) => {
@@ -40,7 +26,7 @@ function Gameboard() {
 				const [y, x] = adjustCoords(y0, x0, i, direction);
 				board[y][x] = { ship, index: i };
 			}
-			ships.push(ship);
+			placedShips.push(ship);
 			return valid;
 		} else {
 			return valid;
@@ -51,16 +37,25 @@ function Gameboard() {
 		const cells = [];
 		for (let i = 0; i < length; i++) {
 			const [y, x] = adjustCoords(y0, x0, i, direction);
-			if (x < 10 && x < 10) {
+			if (y < 10 && x < 10) {
 				cells.push(board[y][x]);
 			} else {
 				return false;
 			}
 		}
-		return cells.every((cell) => cell === null);
+		return cells.every((cell) => cell === 0);
 	};
+
+	const autoPlace = (ship) => {
+		const [y, x] = randCoords();
+		const orient = Math.random() > 0.5;
+		if (orient) ship.changeDirection();
+		const place = placeShip(ship, y, x);
+		if (!place) autoPlace(ship);
+	};
+
 	const recieveAttack = (y, x) => {
-		if (board[y][x] === null) {
+		if (board[y][x] === 0) {
 			board[y][x] = 'miss';
 		} else if (board[y][x].ship) {
 			board[y][x].ship.hit(board[y][x].index);
@@ -68,7 +63,19 @@ function Gameboard() {
 		}
 		return board[y][x];
 	};
-	return { allShipsPlaced, board, getBoard, placeShip, recieveAttack, ships };
-}
+
+	const allShipsSunk = () => placedShips.every((ship) => ship.isSunk());
+
+	return {
+		allShipsPlaced,
+		board,
+		getBoard,
+		placeShip,
+		recieveAttack,
+		allShipsSunk,
+		placedShips,
+		autoPlace,
+	};
+};
 
 export default Gameboard;

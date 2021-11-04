@@ -1,5 +1,5 @@
 import { pieceLength } from './Pieces';
-function Ship(type) {
+const Ship = (type) => {
 	const id = type;
 	const length = pieceLength[type];
 	let direction = 'horizontal';
@@ -9,11 +9,14 @@ function Ship(type) {
 		direction === 'horizontal' ? (direction = 'vertical') : (direction = 'horizontal');
 	};
 
-	var lives = Array(length).fill(0);
-	const hit = (i) => (lives[i] = 1);
-	const isSunk = () => lives.every((live) => live === 1);
+	const lives = Array(length).fill(0);
+	const hit = (i) => (lives[i] = 'hit');
 
-	return { id, length, type, isSunk, hit, getDirection, changeDirection };
-}
+	const getLives = () => lives;
+
+	const isSunk = () => lives.every((live) => live === 'hit');
+
+	return { id, length, type, isSunk, hit, getLives, getDirection, changeDirection };
+};
 
 export default Ship;
