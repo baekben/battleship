@@ -4,7 +4,7 @@ const Gameboard = () => {
 		.fill(0)
 		.map(() => Array(10).fill(0));
 	const getBoard = () => board;
-	const placedShips = [];
+	let placedShips = [];
 	const allShipsPlaced = () => placedShips.length === pieces.length;
 
 	const adjustCoords = (y0, x0, i, direction) => {
@@ -66,6 +66,13 @@ const Gameboard = () => {
 
 	const allShipsSunk = () => placedShips.every((ship) => ship.isSunk());
 
+	const reset = () => {
+		board = Array(10)
+			.fill(0)
+			.map(() => Array(10).fill(0));
+		placedShips = [];
+	};
+
 	return {
 		allShipsPlaced,
 		board,
@@ -75,6 +82,7 @@ const Gameboard = () => {
 		allShipsSunk,
 		placedShips,
 		autoPlace,
+		reset,
 	};
 };
 

@@ -18,9 +18,7 @@ const Player = (user) => {
 			opp.recieveAttack(y, x);
 		}
 	};
-	const resetShips = () => {
-		this.ships = createFleet(pieces);
-	};
+	const resetShips = () => (fleet = createFleet(pieces));
 
 	return { getUser, getFleet, attack, autoAttack, resetShips };
 };
