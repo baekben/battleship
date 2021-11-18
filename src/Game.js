@@ -29,6 +29,7 @@ const Game = () => {
 	};
 
 	const onScreenGrid = (playerGrid, board) => {
+		document.querySelector(playerGrid).innerHTML = '';
 		let parent = document.querySelector(playerGrid);
 		const gboard = board.getBoard();
 		const length = gboard.length;

@@ -4,6 +4,7 @@ import './App.css';
 
 const App = () => {
 	const clickHandle = () => {
+		Game().resetGame();
 		Game();
 		Game().setGame();
 	};

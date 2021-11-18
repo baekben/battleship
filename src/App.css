@@ -54,3 +54,11 @@
 	border: 1px solid;
 	background-color: #fff;
 }
+
+.Carrier,
+.Battleship,
+.Cruiser,
+.Submarine,
+.Destroyer {
+	background-color: blue;
+}
