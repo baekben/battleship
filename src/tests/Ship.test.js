@@ -1,4 +1,4 @@
-import Ship from './Ship';
+import Ship from '../Ship';
 
 describe('Ships set', () => {
 	describe('properties', () => {

@@ -62,3 +62,11 @@
 .Destroyer {
 	background-color: blue;
 }
+
+.hit {
+	background-color: salmon;
+}
+
+.miss {
+	background-color: green;
+}

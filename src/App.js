@@ -4,9 +4,8 @@ import './App.css';
 
 const App = () => {
 	const clickHandle = () => {
-		Game().resetGame();
-		Game();
-		Game().setGame();
+		console.log('Game begin');
+		Game().startGame();
 	};
 
 	return (
@@ -14,7 +13,7 @@ const App = () => {
 			<header className="App-header">
 				<p>Hello</p>
 				<button id="set" onClick={clickHandle}>
-					Set Board
+					Start
 				</button>
 				<div className="container">
 					<div className="gameboard p1">

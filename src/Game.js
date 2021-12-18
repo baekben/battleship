@@ -52,6 +52,48 @@ const Game = () => {
 		parent.insertAdjacentHTML('afterbegin', grid);
 	};
 
+	const fireAttack = (e) => {
+		const area = e.target;
+		if (area.classList.contains('grid-cell')) {
+			const y = area.dataset.y;
+			const x = area.dataset.x;
+
+			const cell = playerTwoBoard.getBoard()[y][x];
+			if (cell !== 'miss' && cell !== 'hit') {
+				playerOne.attack(y, x, playerTwoBoard);
+				playerTwo.autoAttack(playerOneBoard);
+			}
+
+			renderGrids();
+
+			if (playerOneBoard.allShipsSunk() || playerTwoBoard.allShipsSunk()) {
+				let winner = '';
+				if (playerOneBoard.allShipsSunk()) {
+					winner = 'Computer Wins';
+				} else if (playerTwoBoard.allShipsSunk()) {
+					winner = 'You Win';
+				}
+				document.querySelector('.p2Grid').removeEventListener('click', fireAttack);
+				console.log(winner);
+			}
+		}
+	};
+
+	const renderGrids = () => {
+		onScreenGrid('.p1Grid', playerOneBoard);
+		onScreenGrid('.p2Grid', playerTwoBoard);
+	};
+
+	const createEventListeners = () => {
+		const p2 = document.querySelector('.p2Grid');
+		p2.addEventListener('click', fireAttack);
+	};
+
+	const startGame = () => {
+		createEventListeners();
+		setGame();
+	};
+
 	const resetGame = () => {
 		playerOne.resetShips();
 		playerTwo.resetShips();
@@ -59,7 +101,7 @@ const Game = () => {
 		playerTwoBoard.reset();
 	};
 
-	return { setGame, setShips, resetGame, onScreenGrid };
+	return { setGame, setShips, resetGame, startGame, onScreenGrid };
 };
 
 export default Game;

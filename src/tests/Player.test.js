@@ -1,5 +1,5 @@
-import Player from './Player';
-import Gameboard from './Gameboard';
+import Player from '../Player';
+import Gameboard from '../Gameboard';
 
 const player = new Player('User');
 const computer = new Player('Computer');
