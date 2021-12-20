@@ -5,7 +5,9 @@ import './App.css';
 const App = () => {
 	const clickHandle = () => {
 		console.log('Game begin');
-		Game().startGame();
+		let type = 'single';
+		let game = Game(type);
+		game.startGame();
 	};
 
 	return (

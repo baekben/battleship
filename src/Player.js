@@ -1,6 +1,6 @@
 import { randCoords, createFleet, pieces } from './Pieces';
 
-const Player = (user) => {
+const Player = (user = 'user') => {
 	let fleet = createFleet(pieces);
 
 	const getUser = () => user;

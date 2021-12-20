@@ -1,10 +1,15 @@
 import Gameboard from './Gameboard';
 import Player from './Player';
-import { pieces } from './Pieces';
+// import { pieces } from './Pieces';
 
-const Game = () => {
+const Game = (type) => {
 	const playerOne = Player('user');
-	const playerTwo = Player('Computer');
+	let playerTwo;
+	if (type === 'single') {
+		playerTwo = Player('computer');
+	} else {
+		playerTwo = Player('user');
+	}
 
 	const playerOneBoard = Gameboard();
 	const playerTwoBoard = Gameboard();
@@ -24,13 +29,15 @@ const Game = () => {
 	const setGame = () => {
 		setShips(playerOneBoard, fleet1);
 		setShips(playerTwoBoard, fleet2);
-		onScreenGrid('.p1Grid', playerOneBoard);
-		onScreenGrid('.p2Grid', playerTwoBoard);
+		renderGrids();
 	};
 
-	const onScreenGrid = (playerGrid, board) => {
-		document.querySelector(playerGrid).innerHTML = '';
-		let parent = document.querySelector(playerGrid);
+	const updateBoard = (parent) => {
+		parent.textContent = '';
+	};
+
+	const onScreenGrid = (playerGrid, board, type) => {
+		updateBoard(playerGrid);
 		const gboard = board.getBoard();
 		const length = gboard.length;
 		let grid = '';
@@ -40,7 +47,7 @@ const Game = () => {
 				if (status === 0) {
 					status = '';
 				} else if (status.ship) {
-					if (pieces.includes(status.ship.type)) {
+					if (type === 'user') {
 						status = status.ship.id;
 					} else {
 						status = '';
@@ -49,7 +56,7 @@ const Game = () => {
 				grid += renderCell(i, j, status);
 			}
 		}
-		parent.insertAdjacentHTML('afterbegin', grid);
+		playerGrid.insertAdjacentHTML('afterbegin', grid);
 	};
 
 	const fireAttack = (e) => {
@@ -80,8 +87,10 @@ const Game = () => {
 	};
 
 	const renderGrids = () => {
-		onScreenGrid('.p1Grid', playerOneBoard);
-		onScreenGrid('.p2Grid', playerTwoBoard);
+		let p1 = document.querySelector('.p1Grid');
+		let p2 = document.querySelector('.p2Grid');
+		onScreenGrid(p1, playerOneBoard, playerOne.getUser());
+		onScreenGrid(p2, playerTwoBoard, playerTwo.getUser());
 	};
 
 	const createEventListeners = () => {
