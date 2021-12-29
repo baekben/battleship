@@ -1,6 +1,5 @@
 import Gameboard from './Gameboard';
 import Player from './Player';
-// import { pieces } from './Pieces';
 
 const Game = (type) => {
 	const playerOne = Player('user');
@@ -89,18 +88,21 @@ const Game = (type) => {
 	const renderGrids = () => {
 		let p1 = document.querySelector('.p1Grid');
 		let p2 = document.querySelector('.p2Grid');
+
 		onScreenGrid(p1, playerOneBoard, playerOne.getUser());
 		onScreenGrid(p2, playerTwoBoard, playerTwo.getUser());
 	};
 
 	const createEventListeners = () => {
-		const p2 = document.querySelector('.p2Grid');
+		let p2 = document.querySelector('.p2Grid');
+
 		p2.addEventListener('click', fireAttack);
 	};
 
 	const startGame = () => {
-		createEventListeners();
 		setGame();
+		createEventListeners();
+		document.querySelector('.p2Grid').className += ' hide';
 	};
 
 	const resetGame = () => {
