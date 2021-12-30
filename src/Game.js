@@ -16,6 +16,12 @@ const Game = (type) => {
 	const fleet1 = playerOne.getFleet();
 	const fleet2 = playerTwo.getFleet();
 
+	let set = false;
+	let p1 = document.querySelector('.p1Grid');
+	let p2 = document.querySelector('.p2Grid');
+	let start = document.querySelector('.start');
+	let randomize = document.querySelector('.randomize');
+
 	const setShips = (board, fleet) => {
 		for (const ship in fleet) {
 			board.autoPlace(fleet[ship]);
@@ -86,23 +92,35 @@ const Game = (type) => {
 	};
 
 	const renderGrids = () => {
-		let p1 = document.querySelector('.p1Grid');
-		let p2 = document.querySelector('.p2Grid');
-
 		onScreenGrid(p1, playerOneBoard, playerOne.getUser());
 		onScreenGrid(p2, playerTwoBoard, playerTwo.getUser());
 	};
 
-	const createEventListeners = () => {
-		let p2 = document.querySelector('.p2Grid');
+	const showComputerBoard = () => {
+		randomize.className = 'randomize';
+		p2.classList.toggle('hide');
+		if (set === false) {
+			setGame();
+			set = true;
+			start.className = 'start hide';
+		}
+	};
 
+	const randomShip = () => {
+		playerOneBoard.reset();
+		setShips(playerOneBoard, fleet1);
+		renderGrids();
+	};
+
+	const createEventListeners = () => {
 		p2.addEventListener('click', fireAttack);
+		start.addEventListener('click', showComputerBoard);
+		randomize.addEventListener('click', randomShip);
 	};
 
 	const startGame = () => {
-		setGame();
+		renderGrids();
 		createEventListeners();
-		document.querySelector('.p2Grid').className += ' hide';
 	};
 
 	const resetGame = () => {
@@ -110,6 +128,7 @@ const Game = (type) => {
 		playerTwo.resetShips();
 		playerOneBoard.reset();
 		playerTwoBoard.reset();
+		set = false;
 	};
 
 	return { setGame, setShips, resetGame, startGame, onScreenGrid };
