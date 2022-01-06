@@ -87,6 +87,7 @@ const Game = (type) => {
 				}
 				document.querySelector('.p2Grid').removeEventListener('click', fireAttack);
 				console.log(winner);
+				document.querySelector('.status').classList.toggle('hide');
 			}
 		}
 	};
@@ -116,6 +117,8 @@ const Game = (type) => {
 		p2.addEventListener('click', fireAttack);
 		start.addEventListener('click', showComputerBoard);
 		randomize.addEventListener('click', randomShip);
+		let playAgainBtn = document.querySelector('.playAgain');
+		playAgainBtn.addEventListener('click', playAgain);
 	};
 
 	const startGame = () => {
@@ -129,9 +132,16 @@ const Game = (type) => {
 		playerOneBoard.reset();
 		playerTwoBoard.reset();
 		set = false;
+		start.className = 'start';
+		p2.classList.toggle('hide');
 	};
 
-	return { setGame, setShips, resetGame, startGame, onScreenGrid };
+	const playAgain = () => {
+		resetGame();
+		setGame();
+	};
+
+	return { setGame, setShips, resetGame, startGame, onScreenGrid, playAgain };
 };
 
 export default Game;
