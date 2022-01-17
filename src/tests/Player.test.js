@@ -1,17 +1,17 @@
 import Player from '../Player';
 import Gameboard from '../Gameboard';
 
-const player = new Player('User');
-const computer = new Player('Computer');
+const player = Player('User');
+const computer = Player('Computer');
 const playerBoard = Gameboard();
 const compBoard = Gameboard();
 
 test('player name', () => {
-	expect(player.name).toBe('User');
+	expect(player.getUser()).toBe('User');
 });
 
 test('computer name', () => {
-	expect(computer.name).toBe('Computer');
+	expect(computer.getUser()).toBe('Computer');
 });
 
 describe('Player attack', () => {
@@ -39,9 +39,9 @@ describe('Reset player ships', () => {
 		expect(test).toBe(true);
 	});
 	test('player ships after reset are not equal', () => {
-		const fleet1 = player.ships;
+		const fleet1 = player.getFleet();
 		player.resetShips();
-		const fleet2 = player.ships;
+		const fleet2 = player.getFleet();
 		const test = fleet1 === fleet2;
 		expect(test).toBe(false);
 	});
