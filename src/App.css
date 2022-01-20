@@ -50,6 +50,8 @@ html {
 	grid-gap: 0;
 	background-color: #c5c6c7;
 	padding: 10px;
+	margin: 15px;
+	border-radius: 5px;
 }
 
 .status {
@@ -84,6 +86,7 @@ html {
 .Cruiser,
 .Submarine,
 .Destroyer {
+	border-radius: 2px;
 	background-color: #66fcf1;
 }
 

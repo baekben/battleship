@@ -54,6 +54,12 @@ const Gameboard = () => {
 		if (!place) autoPlace(ship);
 	};
 
+	const autoSetShips = (fleet) => {
+		for (const ship in fleet) {
+			autoPlace(fleet[ship]);
+		}
+	};
+
 	const recieveAttack = (y, x) => {
 		if (board[y][x] === 0) {
 			board[y][x] = 'miss';
@@ -78,6 +84,7 @@ const Gameboard = () => {
 		board,
 		getBoard,
 		placeShip,
+		autoSetShips,
 		recieveAttack,
 		allShipsSunk,
 		placedShips,

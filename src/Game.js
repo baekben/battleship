@@ -1,5 +1,6 @@
 import Gameboard from './Gameboard';
 import Player from './Player';
+import Drag from './Drag';
 
 const Game = (type) => {
 	const playerOne = Player('user');
@@ -16,25 +17,33 @@ const Game = (type) => {
 	const fleet1 = playerOne.getFleet();
 	const fleet2 = playerTwo.getFleet();
 
+	const drag = Drag(playerOne, playerOneBoard);
+
 	let set = false;
 	let p1 = document.querySelector('.p1Grid');
 	let p2 = document.querySelector('.p2Grid');
 	let start = document.querySelector('.start');
 	let randomize = document.querySelector('.randomize');
 
-	const setShips = (board, fleet) => {
+	const setShipIndexes = (fleet) => {
 		for (const ship in fleet) {
-			board.autoPlace(fleet[ship]);
+			for (let i = 0; i < fleet[ship].length; i++) {
+				let boat = document.querySelectorAll('.' + fleet[ship].id)[i];
+				boat.setAttribute('data-index', `${i}`);
+				boat.setAttribute('data-ship', `${fleet[ship].id}`);
+			}
 		}
+		drag.addDragDropEventListeners();
 	};
 
 	const renderCell = (y, x, status) =>
-		`<div class="grid-cell cell-${y}=${x} ${status}" data-y='${y}' data-x='${x}'></div>`;
+		`<div class="grid-cell cell-${y}=${x} ${status}" data-y=${y} data-x=${x}></div>`;
 
 	const setGame = () => {
-		setShips(playerOneBoard, fleet1);
-		setShips(playerTwoBoard, fleet2);
+		playerOneBoard.autoSetShips(fleet1);
+		playerTwoBoard.autoSetShips(fleet2);
 		renderGrids();
+		setShipIndexes(fleet1);
 	};
 
 	const updateBoard = (parent) => {
@@ -53,7 +62,7 @@ const Game = (type) => {
 					status = '';
 				} else if (status.ship) {
 					if (type === 'user') {
-						status = status.ship.id;
+						status = status.ship.id + ' ship';
 					} else {
 						status = '';
 					}
@@ -109,7 +118,7 @@ const Game = (type) => {
 
 	const randomShip = () => {
 		playerOneBoard.reset();
-		setShips(playerOneBoard, fleet1);
+		playerOneBoard.autoSetShips(fleet1);
 		renderGrids();
 	};
 
@@ -139,9 +148,10 @@ const Game = (type) => {
 	const playAgain = () => {
 		resetGame();
 		setGame();
+		setShipIndexes(fleet1);
 	};
 
-	return { setGame, setShips, resetGame, startGame, onScreenGrid, playAgain };
+	return { setGame, resetGame, startGame, renderGrids, onScreenGrid, playAgain, setShipIndexes };
 };
 
 export default Game;
