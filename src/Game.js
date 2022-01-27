@@ -1,6 +1,7 @@
 import Gameboard from './Gameboard';
 import Player from './Player';
 import Drag from './Drag';
+import GameRender from './GameRender';
 
 const Game = (type) => {
 	const playerOne = Player('user');
@@ -25,52 +26,10 @@ const Game = (type) => {
 	let start = document.querySelector('.start');
 	let randomize = document.querySelector('.randomize');
 
-	const setShipIndexes = (fleet) => {
-		for (const ship in fleet) {
-			for (let i = 0; i < fleet[ship].length; i++) {
-				let boat = document.querySelectorAll('.' + fleet[ship].id)[i];
-				boat.setAttribute('data-index', `${i}`);
-				boat.setAttribute('data-ship', `${fleet[ship].id}`);
-			}
-		}
-		drag.addDragDropEventListeners();
-	};
-
-	const renderCell = (y, x, status) =>
-		`<div class="grid-cell cell-${y}=${x} ${status}" data-y=${y} data-x=${x}></div>`;
-
 	const setGame = () => {
 		playerOneBoard.autoSetShips(fleet1);
 		playerTwoBoard.autoSetShips(fleet2);
 		renderGrids();
-		setShipIndexes(fleet1);
-	};
-
-	const updateBoard = (parent) => {
-		parent.textContent = '';
-	};
-
-	const onScreenGrid = (playerGrid, board, type) => {
-		updateBoard(playerGrid);
-		const gboard = board.getBoard();
-		const length = gboard.length;
-		let grid = '';
-		for (let i = 0; i < length; i++) {
-			for (let j = 0; j < length; j++) {
-				let status = gboard[i][j];
-				if (status === 0) {
-					status = '';
-				} else if (status.ship) {
-					if (type === 'user') {
-						status = status.ship.id + ' ship';
-					} else {
-						status = '';
-					}
-				}
-				grid += renderCell(i, j, status);
-			}
-		}
-		playerGrid.insertAdjacentHTML('afterbegin', grid);
 	};
 
 	const fireAttack = (e) => {
@@ -102,8 +61,8 @@ const Game = (type) => {
 	};
 
 	const renderGrids = () => {
-		onScreenGrid(p1, playerOneBoard, playerOne.getUser());
-		onScreenGrid(p2, playerTwoBoard, playerTwo.getUser());
+		GameRender.onScreenGrid(p1, playerOneBoard, playerOne.getUser());
+		GameRender.onScreenGrid(p2, playerTwoBoard, playerTwo.getUser());
 	};
 
 	const showComputerBoard = () => {
@@ -114,12 +73,14 @@ const Game = (type) => {
 			set = true;
 			start.className = 'start hide';
 		}
+		GameRender.setShipIndexes(fleet1);
+		drag.addDragDropEventListeners();
 	};
 
 	const randomShip = () => {
 		playerOneBoard.reset();
 		playerOneBoard.autoSetShips(fleet1);
-		renderGrids();
+		renderGrids(); //render board with all pieces
 	};
 
 	const createEventListeners = () => {
@@ -131,7 +92,8 @@ const Game = (type) => {
 	};
 
 	const startGame = () => {
-		renderGrids();
+		renderGrids(); //set empty boards
+
 		createEventListeners();
 	};
 
@@ -148,10 +110,9 @@ const Game = (type) => {
 	const playAgain = () => {
 		resetGame();
 		setGame();
-		setShipIndexes(fleet1);
 	};
 
-	return { setGame, resetGame, startGame, renderGrids, onScreenGrid, playAgain, setShipIndexes };
+	return { setGame, resetGame, startGame, renderGrids, playAgain };
 };
 
 export default Game;

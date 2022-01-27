@@ -1,8 +1,7 @@
-import game from './Game';
+import gameRender from './GameRender';
 const Drag = (player, board) => {
 	let selectedShip;
 	let shipIndex;
-	let parent;
 
 	const getShipIndex = (e) => {
 		shipIndex = Number(e.target.dataset.index);
@@ -10,7 +9,7 @@ const Drag = (player, board) => {
 
 	const dragBegin = (e) => {
 		selectedShip = e.target;
-		parent = selectedShip.parentElement;
+		console.log(selectedShip);
 	};
 
 	const dragDrop = (e) => {
@@ -22,10 +21,10 @@ const Drag = (player, board) => {
 
 		const outcome = board.placeShip(p1Ship, y, x);
 		if (outcome) {
-			parent.removeChild(selectedShip);
+			gameRender.onScreenGrid(document.querySelector('.p1Grid'), board, player.getUser());
+			gameRender.setShipIndexes(player.getFleet());
 			addDragDropEventListeners();
-			game('user').onScreenGrid(document.querySelector('.p1Grid'), board, player.getUser());
-			game('user').setShipIndexes(player.getFleet());
+			selectedShip.parentElement.removeChild(selectedShip);
 			if (board.allShipsPlaced()) {
 				document.querySelector('.start').className = 'start';
 			}

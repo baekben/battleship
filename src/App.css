@@ -86,6 +86,8 @@ html {
 .Cruiser,
 .Submarine,
 .Destroyer {
+	width: 25px;
+	height: 25px;
 	border-radius: 2px;
 	background-color: #66fcf1;
 }
