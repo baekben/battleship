@@ -27,6 +27,7 @@ const Gameboard = () => {
 				board[y][x] = { ship, index: i };
 			}
 			placedShips.push(ship);
+
 			return valid;
 		} else {
 			return valid;
