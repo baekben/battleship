@@ -2,7 +2,7 @@ const GameRender = (() => {
 	const renderCell = (y, x, status) => {
 		let cell = `<div class="grid-cell cell-${y}=${x}" data-y=${y} data-x=${x}></div>`;
 		if (status !== '') {
-			cell = `<div class="grid-cell cell-${y}=${x}"><div class="${status}"></div></div>`;
+			cell = `<div class="grid-cell cell-${y}=${x} occupied" data-y=${y} data-x=${x}><div class="${status}" data-y=${y} data-x=${x}></div></div>`;
 		}
 		return cell;
 	};
@@ -34,7 +34,6 @@ const GameRender = (() => {
 		playerGrid.insertAdjacentHTML('afterbegin', grid);
 	};
 	const setShipIndexes = (fleet) => {
-		console.log(fleet);
 		for (const ship in fleet) {
 			for (let i = 0; i < fleet[ship].length; i++) {
 				let boat = document.querySelectorAll('.' + fleet[ship].id)[i];
