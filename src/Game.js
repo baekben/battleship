@@ -39,6 +39,7 @@ const Game = (type) => {
 			const x = area.dataset.x;
 
 			const cell = playerTwoBoard.getBoard()[y][x];
+			console.log(cell);
 			if (cell !== 'miss' && cell !== 'hit') {
 				playerOne.attack(y, x, playerTwoBoard);
 				playerTwo.autoAttack(playerOneBoard);
